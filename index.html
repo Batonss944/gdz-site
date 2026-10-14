@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ГДЗ Бот — домашка. Вирішена.</title>
+<meta name="description" content="Телеграм-бот, який вирішує домашку: текст або фото, 17 предметів, відповідь за секунди.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #000;
+    --card: #111114;
+    --text: #f5f5f7;
+    --muted: #86868b;
+    --accent: #37aee2;
+    --accent2: #a06ee8;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    background: rgba(0,0,0,.7);
+    border-bottom: 1px solid #222;
+  }
+  nav .inner {
+    max-width: 1020px; margin: 0 auto; padding: 14px 22px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  nav .logo { font-weight: 700; font-size: 17px; }
+  nav .links { display: flex; gap: 22px; align-items: center; }
+  nav .links a { color: var(--muted); text-decoration: none; font-size: 14px; }
+  nav .links a:hover { color: var(--text); }
+  .btn {
+    display: inline-block; background: var(--accent); color: #fff;
+    padding: 10px 22px; border-radius: 980px; text-decoration: none;
+    font-size: 15px; font-weight: 600; transition: transform .2s, opacity .2s;
+  }
+  .btn:hover { opacity: .9; transform: scale(1.03); }
+  .btn.ghost { background: transparent; border: 1px solid #444; color: var(--text); }
+  section { max-width: 1020px; margin: 0 auto; padding: 90px 22px; }
+  .eyebrow {
+    color: var(--accent); font-weight: 700; font-size: 15px;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+  }
+  h1 {
+    font-size: clamp(44px, 8vw, 88px); font-weight: 800;
+    letter-spacing: -2px; line-height: 1.02;
+  }
+  h2 {
+    font-size: clamp(32px, 5vw, 56px); font-weight: 800;
+    letter-spacing: -1px; margin-bottom: 14px;
+  }
+  .grad {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sub { color: var(--muted); font-size: 19px; line-height: 1.5; max-width: 640px; margin: 18px 0 30px; }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding-top: 70px; }
+  .phone {
+    width: 280px; margin: 0 auto; background: #0a0a0c;
+    border: 1px solid #333; border-radius: 44px; padding: 14px;
+    box-shadow: 0 0 80px rgba(55,174,226,.25);
+  }
+  .screen { background: #0f141a; border-radius: 32px; padding: 16px 12px; display: flex; flex-direction: column; gap: 10px; min-height: 420px; }
+  .bubble { max-width: 85%; padding: 10px 13px; border-radius: 18px; font-size: 13.5px; line-height: 1.45; }
+  .bubble.me { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 6px; }
+  .bubble.bot { align-self: flex-start; background: #1f2c34; color: #e8f0f2; border-bottom-left-radius: 6px; }
+  .bubble.bot b { color: #7ee2a8; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 60px; }
+  .stat { text-align: center; padding: 22px 10px; background: var(--card); border-radius: 20px; }
+  .stat .n { font-size: 30px; font-weight: 800; }
+  .stat .l { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+  .card { background: var(--card); border-radius: 24px; padding: 34px 30px; }
+  .card .ico { font-size: 38px; }
+  .card h3 { font-size: 23px; margin: 14px 0 10px; }
+  .card p { color: var(--muted); font-size: 16px; line-height: 1.55; }
+  .card.wide { grid-column: 1 / -1; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .chip { background: #1d1d20; border: 1px solid #333; padding: 8px 16px; border-radius: 980px; font-size: 14px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+  .step { background: var(--card); border-radius: 24px; padding: 30px 26px; }
+  .step .num { font-size: 15px; font-weight: 800; color: var(--accent); }
+  .step h3 { font-size: 20px; margin: 10px 0 8px; }
+  .step p { color: var(--muted); font-size: 15px; line-height: 1.55; }
+  .step code { background: #222; padding: 2px 8px; border-radius: 6px; font-size: 14px; color: #fff; }
+  details { background: var(--card); border-radius: 18px; padding: 20px 24px; margin-top: 12px; }
+  summary { cursor: pointer; font-weight: 700; font-size: 17px; }
+  details p { color: var(--muted); margin-top: 10px; font-size: 15.5px; line-height: 1.6; }
+  footer { border-top: 1px solid #222; text-align: center; padding: 50px 22px 60px; color: var(--muted); font-size: 14px; }
+  footer a { color: var(--accent); text-decoration: none; }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.on { opacity: 1; transform: none; }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    nav .links a:not(.btn) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <div class="logo">🤖 ГДЗ Бот</div>
+    <div class="links">
+      <a href="#features">Можливості</a>
+      <a href="#how">Як це працює</a>
+      <a href="#rules">Правила</a>
+      <a class="btn" href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">Відкрити</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow reveal">Помічник з домашки 🇺🇦</div>
+    <h1 class="reveal">Домашка.<br><span class="grad">Вирішена.</span></h1>
+    <p class="sub reveal">Надсилай завдання текстом або фото — ГДЗ Бот пояснить розв'язок по кроках за кілька секунд. Українською, просто і по шкільній програмі.</p>
+    <div class="cta-row reveal">
+      <a class="btn" href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">Відкрити в Telegram</a>
+      <a class="btn ghost" href="#how">Як це працює ↓</a>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><div class="n">⚡ ~10с</div><div class="l">швидкість відповіді</div></div>
+      <div class="stat"><div class="n">📚 17</div><div class="l">предметів</div></div>
+      <div class="stat"><div class="n">📸 2</div><div class="l">текст або фото</div></div>
+      <div class="stat"><div class="n">🆓 0₴</div><div class="l">безкоштовно</div></div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="phone">
+      <div class="screen">
+        <div class="bubble me">Початок першої світової війни?</div>
+        <div class="bubble bot"><b>✅ Відповідь:</b> 28 липня 1914 року</div>
+        <div class="bubble bot"><b>📝 Розв'язання:</b><br>Крок 1: 28 червня в Сараєво вбито Франца Фердинанда.<br>Крок 2: через місяць Австро-Угорщина оголосила війну Сербії.</div>
+        <div class="bubble bot"><b>💡 Простими словами:</b> ефект доміно — союзники втягнули один одного у війну 🌍</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="eyebrow reveal">Можливості</div>
+  <h2 class="reveal">Все, що треба.<br><span class="grad">Нічого зайвого.</span></h2>
+  <div class="grid">
+    <div class="card reveal"><div class="ico">📝</div><h3>Текстом</h3><p>Просто напиши завдання своїми словами — хоч з помилками. Бот зрозуміє і вирішить.</p></div>
+    <div class="card reveal"><div class="ico">📸</div><h3>Фото</h3><p>Сфоткай зошит чи підручник — бот прочитає текст з фото і розв'яже. Працює навіть з кривуватим почерком.</p></div>
+    <div class="card reveal"><div class="ico">⚡</div><h3>Швидко</h3><p>Текстові завдання — за секунди. Фото — трохи довше, бо треба розпізнати картинку.</p></div>
+    <div class="card reveal"><div class="ico">🇺🇦</div><h3>Українською</h3><p>Відповіді прості, за шкільною програмою: без зауму, зате з поясненням, щоб і вчитель повірив.</p></div>
+    <div class="card wide reveal"><div class="ico">📚</div><h3>17 предметів</h3><p>Обери кнопкою — так бот вирішує точніше.</p>
+      <div class="chips">
+        <span class="chip">📐 Алгебра</span><span class="chip">📏 Геометрія</span><span class="chip">⚛️ Фізика</span><span class="chip">🧪 Хімія</span><span class="chip">🔬 STEM</span><span class="chip">🌍 Географія</span><span class="chip">🧬 Біологія</span><span class="chip">💻 Інформатика</span><span class="chip">🇺🇦 Історія України</span><span class="chip">🏛️ Всесвітня історія</span><span class="chip">📚 Укр. мова</span><span class="chip">📖 Укр. література</span><span class="chip">📜 Зарубіжна літ.</span><span class="chip">🎨 Мистецтво</span><span class="chip">🇬🇧 Англійська</span><span class="chip">🛡️ Здоров'я і безпека</span><span class="chip">📦 Інше</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="eyebrow reveal">Як це працює</div>
+  <h2 class="reveal">Три кроки — <span class="grad">і готово.</span></h2>
+  <div class="steps">
+    <div class="step reveal"><div class="num">01</div><h3>Відкрий бота</h3><p>Перейди за посиланням і натисни <code>/start</code>. Жодних реєстрацій.</p></div>
+    <div class="step reveal"><div class="num">02</div><h3>Обери предмет</h3><p>Тисни кнопку з предметом — так відповідь буде точнішою.</p></div>
+    <div class="step reveal"><div class="num">03</div><h3>Надішли завдання</h3><p>Текстом або фото. Отримай відповідь, розв'язок по кроках і просте пояснення.</p></div>
+  </div>
+  <div style="margin-top:26px" class="reveal"><a class="btn" href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">Спробувати зараз</a></div>
+</section>
+
+<section id="rules">
+  <div class="eyebrow reveal">Правила чесної гри</div>
+  <h2 class="reveal">Щоб бот <span class="grad">не ліг.</span></h2>
+  <div class="grid">
+    <div class="card reveal"><div class="ico">🐢</div><h3>Не спам</h3><p>Надсилай завдання раз на кілька секунд. Десять повідомлень підряд — і бот попросить зачекати.</p></div>
+    <div class="card reveal"><div class="ico">📸</div><h3>Чіткі фото</h3><p>Тримай телефон рівно, текст горизонтально, при хорошому світлі. Інакше бот попросить переслати.</p></div>
+    <div class="card reveal"><div class="ico">🌙</div><h3>Вночі спить</h3><p>Іноді бот відпочиває. Напиши перше повідомлення — він прокинеться, далі полетить.</p></div>
+    <div class="card reveal"><div class="ico">🤫</div><h3>Тихо ша</h3><p>Твої завдання бачиш тільки ти і бот. Але вчительці все одно не кажи.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow reveal">Питання</div>
+  <h2 class="reveal">Часті <span class="grad">запитання.</span></h2>
+  <div class="reveal">
+    <details open><summary>Це безкоштовно?</summary><p>Так. Жодних підписок і оплат — просто користуйся.</p></details>
+    <details><summary>Хто бачить мої завдання?</summary><p>Тільки ти і бот. Листування нікуди не публікується.</p></details>
+    <details><summary>Фото не прочиталось. Що робити?</summary><p>Перефоткай чіткіше при світлі або просто перепиши завдання текстом — так спрацює завжди.</p></details>
+    <details><summary>Бот довго відповідає. Це нормально?</summary><p>Зазвичай відповідь за секунди. Якщо штучний інтелект перевантажений — зачекай хвилину і надішли ще раз.</p></details>
+  </div>
+</section>
+
+<section style="text-align:center">
+  <h2 class="reveal">Домашка сама себе<br><span class="grad">не вирішить.</span></h2>
+  <p class="sub reveal" style="margin-left:auto;margin-right:auto">Тисни кнопку. Дальше бот все зробить.</p>
+  <div class="reveal"><a class="btn" style="font-size:18px;padding:14px 34px" href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">🤖 Відкрити ГДЗ Бота</a></div>
+</section>
+
+<footer>
+  Зроблено учнями для учнів 💪 · Працює в <a href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">Telegram</a>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
