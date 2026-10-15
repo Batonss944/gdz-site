@@ -221,7 +221,7 @@
     <div class="step reveal"><div class="num">02</div><h3>Обери предмет</h3><p>Тисни кнопку з предметом — так відповідь буде точнішою.</p></div>
     <div class="step reveal"><div class="num">03</div><h3>Надішли завдання</h3><p>Текстом або фото. Отримай відповідь, розв'язок по кроках і просте пояснення.</p></div>
   </div>
-  <div style="margin-top:26px" class="reveal"><a class="btn" href="https://t.me/GDZRESBOT?start=site" target="_blank" rel="noopener">Спробувати зараз</a></div>
+  <div style="margin-top:26px" class="reveal"><a class="btn" href="https://t.me/GDZRESBOT?start=site" target="_blank" rel="noopener">Розв'язати перше завдання</a></div>
 </section>
 
 <section id="rules">
@@ -231,7 +231,7 @@
     <div class="card reveal"><div class="ico">🐢</div><h3>Не спам</h3><p>Надсилай завдання раз на кілька секунд. Десять повідомлень підряд — і бот попросить зачекати.</p></div>
     <div class="card reveal"><div class="ico">📸</div><h3>Чіткі фото</h3><p>Тримай телефон рівно, текст горизонтально, при хорошому світлі. Інакше бот попросить переслати.</p></div>
     <div class="card reveal"><div class="ico">🌙</div><h3>Вночі спить</h3><p>Іноді бот відпочиває. Напиши перше повідомлення — він прокинеться, далі полетить.</p></div>
-    <div class="card reveal"><div class="ico">🤫</div><h3>Тихо ша</h3><p>Твої завдання бачиш тільки ти і бот. Але вчительці все одно не кажи.</p></div>
+    <div class="card reveal"><div class="ico">🤫</div><h3>Тихо ша</h3><p>Твої завдання ніде не публікуються. Але вчительці все одно не кажи.</p></div>
   </div>
 </section>
 
@@ -240,7 +240,7 @@
   <h2 class="reveal">Часті <span class="grad">запитання.</span></h2>
   <div class="reveal">
     <details open><summary>Це безкоштовно?</summary><p>Так. Жодних підписок і оплат — просто користуйся.</p></details>
-    <details><summary>Хто бачить мої завдання?</summary><p>Тільки ти і бот. Листування нікуди не публікується.</p></details>
+    <details><summary>Хто бачить мої завдання?</summary><p>Листування ніде не публікується: завдання не викладаються в інтернет і не показуються іншим людям.</p></details>
     <details><summary>Фото не прочиталось. Що робити?</summary><p>Перефоткай чіткіше при світлі або просто перепиши завдання текстом — так спрацює завжди.</p></details>
     <details><summary>Бот довго відповідає. Це нормально?</summary><p>Зазвичай відповідь за секунди. Якщо штучний інтелект перевантажений — зачекай хвилину і надішли ще раз.</p></details>
   </div>
@@ -253,7 +253,7 @@
 </section>
 
 <footer>
-  Зроблено учнями для учнів 💪 · Працює в <a href="https://t.me/GDZRESBOT?start=site" target="_blank" rel="noopener">Telegram</a>
+  Зроблено <span id="secret">учнями</span> для учнів 💪 · Працює в <a href="https://t.me/GDZRESBOT?start=site" target="_blank" rel="noopener">Telegram</a>
 </footer>
 
 <script>
@@ -261,6 +261,38 @@
     es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  // Секретка: 3 кліки по слову в підвалі — копіює юзернейм автора
+  (function(){
+    var el = document.getElementById('secret');
+    if (!el) return;
+    var n = 0, t = 0;
+    function toast(msg){
+      var d = document.createElement('div');
+      d.textContent = msg;
+      d.style.cssText = 'position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#1d1d20;border:1px solid #333;color:#f5f5f7;padding:12px 22px;border-radius:980px;font-size:15px;z-index:99';
+      document.body.appendChild(d);
+      setTimeout(function(){ d.remove(); }, 2200);
+    }
+    el.addEventListener('click', function(){
+      var now = Date.now();
+      n = (now - t < 2000) ? n + 1 : 1;
+      t = now;
+      if (n >= 3) {
+        n = 0;
+        var u = '@Kolya8plus';
+        function done(){ toast('Юзернейм скопійовано 😏'); }
+        function fallback(){
+          var ta = document.createElement('textarea');
+          ta.value = u; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); done(); } catch(e){}
+          document.body.removeChild(ta);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(u).then(done, function(){ fallback(); });
+        } else { fallback(); }
+      }
+    });
+  })();
 </script>
 </body>
 </html>
