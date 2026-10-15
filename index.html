@@ -6,6 +6,25 @@
 <title>ГДЗ Бот — домашка. Вирішена.</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Телеграм-бот, який вирішує домашку: текст або фото, 17 предметів, відповідь за секунди.">
+<link rel="canonical" href="https://gdz-site.onrender.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ГДЗ Бот">
+<meta property="og:title" content="ГДЗ Бот — домашка. Вирішена.">
+<meta property="og:description" content="Надсилай завдання текстом або фото — отримай розв'язок по кроках за секунди. 17 предметів, безкоштовно.">
+<meta property="og:url" content="https://gdz-site.onrender.com/">
+<meta name="twitter:card" content="summary">
+<!-- Google Analytics 4: створи ресурс на analytics.google.com і впиши свій ID замість G-XXXXXXXXXX у 3 місцях нижче -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href*="t.me/GDZRESBOT"]');
+    if (a && window.gtag) { gtag('event', 'telegram_click', {link_url: a.href}); }
+  });
+</script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
@@ -96,6 +115,9 @@
   details { background: var(--card); border-radius: 18px; padding: 20px 24px; margin-top: 12px; }
   summary { cursor: pointer; font-weight: 700; font-size: 17px; }
   details p { color: var(--muted); margin-top: 10px; font-size: 15.5px; line-height: 1.6; }
+  .demo-q { background: #0a2a3a; border: 1px solid #1f4b5f; border-radius: 16px; padding: 14px 16px; font-size: 15px; margin-bottom: 12px; }
+  .demo-a { font-size: 15.5px; line-height: 1.65; }
+  .demo-a b { color: #7ee2a8; }
   footer { border-top: 1px solid #222; text-align: center; padding: 50px 22px 60px; color: var(--muted); font-size: 14px; }
   footer a { color: var(--accent); text-decoration: none; }
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
@@ -116,9 +138,10 @@
     <div class="logo">🤖 ГДЗ Бот</div>
     <div class="links">
       <a href="#features">Можливості</a>
+      <a href="#demo">Приклади</a>
       <a href="#how">Як це працює</a>
       <a href="#rules">Правила</a>
-      <a class="btn" href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">Відкрити</a>
+      <a class="btn" href="https://t.me/GDZRESBOT?start=site" target="_blank" rel="noopener">Відкрити</a>
     </div>
   </div>
 </nav>
@@ -129,7 +152,7 @@
     <h1 class="reveal">Домашка.<br><span class="grad">Вирішена.</span></h1>
     <p class="sub reveal">Надсилай завдання текстом або фото — ГДЗ Бот пояснить розв'язок по кроках за кілька секунд. Українською, просто і по шкільній програмі.</p>
     <div class="cta-row reveal">
-      <a class="btn" href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">Відкрити в Telegram</a>
+      <a class="btn" href="https://t.me/GDZRESBOT?start=site" target="_blank" rel="noopener">Відкрити в Telegram</a>
       <a class="btn ghost" href="#how">Як це працює ↓</a>
     </div>
     <div class="stats reveal">
@@ -147,6 +170,26 @@
         <div class="bubble bot"><b>📝 Розв'язання:</b><br>Крок 1: 28 червня в Сараєво вбито Франца Фердинанда.<br>Крок 2: через місяць Австро-Угорщина оголосила війну Сербії.</div>
         <div class="bubble bot"><b>💡 Простими словами:</b> ефект доміно — союзники втягнули один одного у війну 🌍</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="eyebrow reveal">Живі приклади</div>
+  <h2 class="reveal">Так відповідає <span class="grad">справжній бот.</span></h2>
+  <p class="sub reveal">Не макети для реклами — ці відповіді видав робочий бот на реальні завдання.</p>
+  <div class="grid">
+    <div class="card reveal"><div class="ico">📐</div><h3>Алгебра</h3>
+      <div class="demo-q">Розв'яжи рівняння: 3(x − 4) = 2x + 5</div>
+      <div class="demo-a"><b>✅ Відповідь:</b> x = 17<br><b>📝 Розв'язання:</b><br>Крок 1: розкриваємо дужки: 3x − 12 = 2x + 5<br>Крок 2: переносимо: 3x − 2x = 5 + 12<br><b>💡 Простими словами:</b> що робимо з одного боку рівняння — те саме робимо з іншого.</div>
+    </div>
+    <div class="card reveal"><div class="ico">⚛️</div><h3>Фізика</h3>
+      <div class="demo-q">Тіло пройшло 120 м за 20 с. Яка його швидкість?</div>
+      <div class="demo-a"><b>✅ Відповідь:</b> 6 м/с<br><b>📝 Розв'язання:</b><br>Крок 1: формула швидкості: v = s / t<br>Крок 2: підставляємо: v = 120 / 20 = 6 м/с<br><b>💡 Простими словами:</b> швидкість — це скільки метрів за одну секунду.</div>
+    </div>
+    <div class="card wide reveal"><div class="ico">🇬🇧</div><h3>Англійська</h3>
+      <div class="demo-q">Correct the mistake: My sister older invited her to go out with us.</div>
+      <div class="demo-a"><b>✅ Відповідь:</b> My <b>older</b> sister invited her to go out with us.<br><b>📝 Розв'язання:</b><br>Крок 1: прикметник older стоїть після іменника — це помилка.<br>Крок 2: в англійській прикметник ставиться ПЕРЕД іменником: older sister.<br><b>💡 Простими словами:</b> спочатку «яка», потім «хто»: older sister, як big dog.</div>
     </div>
   </div>
 </section>
@@ -175,7 +218,7 @@
     <div class="step reveal"><div class="num">02</div><h3>Обери предмет</h3><p>Тисни кнопку з предметом — так відповідь буде точнішою.</p></div>
     <div class="step reveal"><div class="num">03</div><h3>Надішли завдання</h3><p>Текстом або фото. Отримай відповідь, розв'язок по кроках і просте пояснення.</p></div>
   </div>
-  <div style="margin-top:26px" class="reveal"><a class="btn" href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">Спробувати зараз</a></div>
+  <div style="margin-top:26px" class="reveal"><a class="btn" href="https://t.me/GDZRESBOT?start=site" target="_blank" rel="noopener">Спробувати зараз</a></div>
 </section>
 
 <section id="rules">
@@ -203,11 +246,11 @@
 <section style="text-align:center">
   <h2 class="reveal">Домашка сама себе<br><span class="grad">не вирішить.</span></h2>
   <p class="sub reveal" style="margin-left:auto;margin-right:auto">Тисни кнопку. Дальше бот все зробить.</p>
-  <div class="reveal"><a class="btn" style="font-size:18px;padding:14px 34px" href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">🤖 Відкрити ГДЗ Бота</a></div>
+  <div class="reveal"><a class="btn" style="font-size:18px;padding:14px 34px" href="https://t.me/GDZRESBOT?start=site" target="_blank" rel="noopener">🤖 Відкрити ГДЗ Бота</a></div>
 </section>
 
 <footer>
-  Зроблено учнями для учнів 💪 · Працює в <a href="https://t.me/GDZRESBOT" target="_blank" rel="noopener">Telegram</a>
+  Зроблено учнями для учнів 💪 · Працює в <a href="https://t.me/GDZRESBOT?start=site" target="_blank" rel="noopener">Telegram</a>
 </footer>
 
 <script>
