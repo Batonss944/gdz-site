@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ГДЗ Бот — домашка. Вирішена.</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="/avatar.png">
+<link rel="apple-touch-icon" href="/avatar.png">
+<meta property="og:image" content="https://gdz-site.onrender.com/avatar.png">
+<meta name="twitter:image" content="https://gdz-site.onrender.com/avatar.png">
 <meta name="description" content="Телеграм-бот, який вирішує домашку: текст або фото, 17 предметів, відповідь за секунди.">
 <link rel="canonical" href="https://gdz-site.onrender.com/">
 <meta property="og:type" content="website">
@@ -13,13 +16,13 @@
 <meta property="og:description" content="Надсилай завдання текстом або фото — отримай розв'язок по кроках за секунди. 17 предметів, безкоштовно.">
 <meta property="og:url" content="https://gdz-site.onrender.com/">
 <meta name="twitter:card" content="summary">
-<!-- Google Analytics 4: створи ресурс на analytics.google.com і впиши свій ID замість G-XXXXXXXXXX у 3 місцях нижче -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<!-- Google Analytics 4: створи ресурс на analytics.google.com і впиши свій ID замість G-CFDXG1XFJ2 у 3 місцях нижче -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CFDXG1XFJ2"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
+  gtag('config', 'G-CFDXG1XFJ2');
   document.addEventListener('click', function(e){
     var a = e.target.closest('a[href*="t.me/GDZRESBOT"]');
     if (a && window.gtag) { gtag('event', 'telegram_click', {link_url: a.href}); }
@@ -135,7 +138,7 @@
 
 <nav>
   <div class="inner">
-    <div class="logo">🤖 ГДЗ Бот</div>
+    <div class="logo" style="display:flex;align-items:center;gap:9px"><img src="/avatar.png" alt="logo" width="28" height="28" style="border-radius:8px">ГДЗ Бот</div>
     <div class="links">
       <a href="#features">Можливості</a>
       <a href="#demo">Приклади</a>
